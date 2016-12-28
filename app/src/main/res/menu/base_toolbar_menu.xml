@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!--
+     app:showAsAction ，这个属性是设置菜单该怎么显示，取值有5种，主要应用的有ifRoom、never、always
+     这三种，
+      ifRoom 表示 如果Toolbar 上有显示空间就显示在Toolbar 上，如果没有空间就展示在溢出菜单里，
+      never 表是总是显示在溢出菜单里，
+      always 表示总是显示在Toolbar 上
+    -->
+    <item
+        android:id="@+id/action_search"
+        android:icon="@drawable/ic_search"
+        android:title="@string/menu_search"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_notification"
+        android:icon="@drawable/ic_notifications"
+        android:title="@string/menu_notifications"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_item1"
+        android:title="@string/item_01"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_item2"
+        android:title="@string/item_02"
+        app:showAsAction="never" />
+</menu>

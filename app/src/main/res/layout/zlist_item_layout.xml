@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
+    android:orientation="vertical"
+    android:padding="15dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/tv_author"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="作者"
+            android:textColor="@color/color_666666"
+            android:textSize="13sp" />
+    </LinearLayout>
+    <org.sufficientlysecure.htmltextview.HtmlTextView
+        android:id="@+id/tv_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:ellipsize="end"
+        android:includeFontPadding="true"
+        android:maxLines="3"
+        android:textColor="@color/color_666666"
+        android:textSize="15sp"
+        tools:text="85K收藏，赞同才36K，你们这。。。。。。。。 - 声明，如果有微博或者公众号发表了我的这篇回答，请一定要把链接私信给我。我将会跟官方沟通维护我的权益。具体转载事项请看文尾。 --------------- - 这个问题我回答是最合适不过了！十个电影，每个电影都能…" />
+    <TextView
+        android:id="@+id/tv_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="206 赞同"
+        android:padding="5dp"
+        android:textColor="@color/color_666666"
+        android:textSize="13sp" />
+
+</LinearLayout>

@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">闲读</string>
+
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+    <string name="menu_search">查找</string>
+    <string name="menu_notifications">通知</string>
+    <string name="menu_settings">设置</string>
+    <string name="menu_about_us">关于</string>
+    <string name="home_page">首页</string>
+    <string name="zhi_hu">知乎</string>
+    <string name="item_01">更多</string>
+    <string name="item_02">关于</string>
+    <string name="item_03">复制链接</string>
+    <string name="simple_navigation_drawer">SimpleNavigationDrawer</string>
+    <string name="simple_drawer">SimpleDrawer</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="logout">再按一次，退出应用</string>
+
+    <string name="tip_drag">长按编辑,拖拽排序</string>
+    <string name="my_cahnnel">我的频道</string>
+    <string name="other_channel">其他频道</string>
+    <string name="edit">编辑</string>
+    <string name="finish">完成</string>
+</resources>

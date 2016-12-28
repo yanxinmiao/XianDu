@@ -1,0 +1,25 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:id="@+id/fl_joke"
+    android:layout_height="match_parent"
+    tools:context="cn.xiandu.app.fragment.WxHotFragment">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.astuetz.PagerSlidingTabStrip
+            android:id="@+id/joke_tabs"
+            android:background="@color/colorPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="48dip" />
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/joke_pager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </android.support.v4.view.ViewPager>
+    </LinearLayout>
+</FrameLayout>

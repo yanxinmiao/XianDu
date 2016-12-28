@@ -1,0 +1,34 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="cn.xiandu.app.fragment.WxHotFragment">
+    <com.weavey.loading.lib.LoadingLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/loading_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:isFirstVisible="true">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.astuetz.PagerSlidingTabStrip
+                android:id="@+id/gank_tabs"
+                android:background="@color/colorPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="48dip" />
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/gank_pager"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </android.support.v4.view.ViewPager>
+        </LinearLayout>
+    </com.weavey.loading.lib.LoadingLayout>
+</FrameLayout>

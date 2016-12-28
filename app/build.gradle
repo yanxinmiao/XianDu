@@ -1,0 +1,246 @@
+apply plugin: 'com.android.application'
+apply plugin: 'org.greenrobot.greendao'
+
+apply plugin: 'bugly'
+bugly {
+    appId = "0c7311dfc7"
+    appKey = "ad8ffb27-5ce8-4604-a281-d679b14936a5"
+}
+apply plugin: 'com.tencent.bugly.tinker-support'
+def bakPath = file("${buildDir}/bakApk/")
+
+ext {
+    // for some reason, you may want to ignore tinkerBuild, such as instant run debug build?
+    tinkerEnabled = true
+
+    // for normal build
+    // old apk file to build patch apk
+    tinkerOldApkPath = "${bakPath}/app-release.apk"
+    // proguard mapping file to build patch apk
+    tinkerApplyMappingPath = "${bakPath}/mapping.txt"
+    // resource R.txt to build patch apk, must input if there is resource changed
+    tinkerApplyResourcePath = "${bakPath}/R.txt"
+    // only use for build all flavor, if not, just ignore this field
+    tinkerBuildFlavorDirectory = "${bakPath}/app-1124-23-03-52"
+}
+
+def getOldApkPath() {
+    return hasProperty("OLD_APK") ? OLD_APK : ext.tinkerOldApkPath
+}
+
+def getApplyMappingPath() {
+    return hasProperty("APPLY_MAPPING") ? APPLY_MAPPING : ext.tinkerApplyMappingPath
+}
+
+def getApplyResourceMappingPath() {
+    return hasProperty("APPLY_RESOURCE") ? APPLY_RESOURCE : ext.tinkerApplyResourcePath
+}
+
+def getTinkerIdValue() {
+    return hasProperty("TINKER_ID") ? TINKER_ID : gitSha()
+}
+
+def buildWithTinker() {
+    return hasProperty("TINKER_ENABLE") ? TINKER_ENABLE : ext.tinkerEnabled
+}
+
+def getTinkerBuildFlavorDirectory() {
+    return ext.tinkerBuildFlavorDirectory
+}
+
+// 注意：必须要配置tinker-support
+tinkerSupport {
+    enable = true
+}
+
+// 全局信息相关配置项
+tinkerPatch {
+    oldApk = getOldApkPath()  //打补丁包时必选， 基准包路径
+
+    ignoreWarning = false // 可选，默认false
+    useSign = true // 可选，默认true， 验证基准apk和patch签名是否一致
+
+    // 编译相关配置项
+    buildConfig {
+        applyMapping = getApplyMappingPath() //  可选，设置mapping文件，建议保持旧apk的proguard混淆方式
+        applyResourceMapping = getApplyResourceMappingPath()      // 可选，设置R.txt文件，通过旧apk文件保持ResId的分配
+        tinkerId = "v1.0.0"  // 必选，当前版本的唯一标识，可以是git版本号、versionName
+    }
+
+    // dex相关配置项
+    dex {
+        dexMode = "jar" // 可选，默认为jar
+        usePreGeneratedPatchDex = false // 可选，默认为false
+        pattern = ["classes*.dex",
+                   "assets/secondary-dex-?.jar"]
+        loader = ["com.tencent.tinker.loader.*",  // 必选
+                  "cn.xiandu.app.HuiTinkerApplication",
+        ]
+    }
+
+    // lib相关的配置项
+    lib {
+        pattern = ["lib/armeabi/*.so"]
+    }
+
+    // res相关的配置项
+    res {
+        pattern = ["res/*", "assets/*", "resources.arsc", "AndroidManifest.xml"]
+        ignoreChange = ["assets/sample_meta.txt"]
+        largeModSize = 100
+    }
+
+    // 用于生成补丁包中的'package_meta.txt'文件
+    packageConfig {
+        configField("patchMessage", "tinker is sample to use")
+        configField("platform", "all")
+        configField("patchVersion", "1.0")
+    }
+
+    // 7zip路径配置项，执行前提是useSign为true
+    sevenZip {
+        zipArtifact = "com.tencent.mm:SevenZip:1.1.10" // optional
+    }
+}
+def releaseTime() {
+    return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
+}
+android {
+    compileSdkVersion 24
+    buildToolsVersion "23.0.3"
+    defaultConfig {
+        ndk {
+            // 设置支持的SO库架构
+            abiFilters 'armeabi', 'armeabi-v7a', 'armeabi-v8a','x86' //, 'x86', 'armeabi-v7a', 'x86_64', 'arm64-v8a'
+        }
+        applicationId "cn.xiandu.app"
+        minSdkVersion 15
+        targetSdkVersion 24
+        versionCode 12
+        versionName "2.5.4"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    dataBinding {
+        enabled = true
+    }
+    buildTypes {
+        debug {
+            minifyEnabled true
+            zipAlignEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        release {
+            minifyEnabled true
+            zipAlignEnabled true
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            applicationVariants.all { variant ->
+                variant.outputs.each { output ->
+                    def outputFile = output.outputFile
+                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                        // 输出apk名称为boohee_v1.0_2015-01-15_wandoujia.apk
+                        def fileName = "${variant.productFlavors[0].name}_v${defaultConfig.versionName}_${releaseTime()}.apk"
+                        output.outputFile = new File(outputFile.parent, fileName)
+                    }
+                }
+            }
+        }
+    }
+    productFlavors {
+        baidu {}
+        qihu360 {}
+        yingyongbao {}
+        wandoujia {}
+        gfan {}
+        yingyonghui {}
+        xiaomi {}
+        anzhuo_market {}
+        market_91 {}
+    }
+    productFlavors.all {
+        flavor -> flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
+    }
+    compileOptions {
+    }
+}
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+allprojects {
+    repositories {
+        jcenter()
+        maven { url "https://jitpack.io" }
+        maven {
+            url 'https://oss.sonatype.org/content/repositories/releases/'
+        }
+        maven { url "https://jitpack.io" }
+    }
+}
+//greendao配置
+greendao {
+    schemaVersion 1                             //版本号，升级时可配置
+    daoPackage 'cn.xiandu.app.dao' //包名
+    targetGenDir 'src/main/java'                 //生成目录
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    //字体对齐
+
+    // This component like SwipeRefreshLayout, it is more beautiful than SwipeRefreshLayout.
+
+    //阿里百川
+    compile(name: 'alisdk-feedback-2.3.0', ext: 'aar')
+    compile(name: 'securityguardaar3-5.1.81', ext: 'aar')
+    compile files('libs/app-monitor-sdk-2.5.1.1_for_bc_proguard.jar')
+    compile files('libs/utdid4all-1.1.5.3_proguard.jar')
+    // A custom view component that mimics the new Material Design Bottom Navigation pattern.
+
+    compile 'com.android.support:support-v4:24.2.1'
+    compile 'com.android.support:design:24.2.1'
+    compile 'com.android.support:appcompat-v7:24.2.1'
+    compile 'com.android.support:cardview-v7:24.2.1'
+    compile 'com.android.support:recyclerview-v7:24.2.1'
+    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:v2.0.0'
+    compile 'com.jakewharton:butterknife:8.4.0'
+    compile 'com.zhy:okhttputils:2.6.2'
+    compile 'com.google.code.gson:gson:2.8.0'
+    compile 'com.orhanobut:logger:1.15'
+    compile 'com.lai.weavey:loadinglayout:1.2'
+    compile 'me.codeboy.android:align-text-view:2.3.0'
+    compile 'com.badoo.mobile:android-weak-handler:1.1'
+    compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
+    compile 'com.github.chrisbanes.photoview:library:1.2.4'
+    compile 'com.yqritc:recyclerview-flexibledivider:1.4.0'
+    compile 'org.jsoup:jsoup:1.10.1'
+    compile 'com.umeng.analytics:analytics:6.0.4'
+    compile 'org.greenrobot:greendao:3.1.1'
+    compile 'com.baoyz.pullrefreshlayout:library:1.2.0'
+    compile 'org.greenrobot:eventbus:3.0.0'
+    compile 'org.sufficientlysecure:html-textview:3.0'
+    compile 'com.roughike:bottom-bar:2.0.2'
+    compile 'com.google.dagger:dagger:2.8'
+    testCompile 'junit:junit:4.12'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.8'
+    compile 'com.google.android.gms:play-services-appindexing:8.4.0'
+    //Glide
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'com.github.bumptech.glide:okhttp3-integration:1.4.0@aar'
+    compile 'com.squareup.okhttp3:okhttp:3.5.0'
+    compile 'jp.wasabeef:glide-transformations:2.0.1'
+
+    //Bugly
+//    compile 'com.tencent.bugly:crashreport:2.4.0'
+    compile 'com.tencent.bugly:nativecrashreport:3.1.0'
+    compile 'com.tencent.bugly:crashreport_upgrade:latest.release'//其中latest.release指代最新版本号，也可以指定明确的版本号，例如1.2.0 升级SDK已经集成crash上报功能
+    // 多dex配置
+    compile "com.android.support:multidex:1.0.1"
+}

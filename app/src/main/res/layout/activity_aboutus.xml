@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:toolbar="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_setting"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/backgroundColor"
+    tools:context="cn.xiandu.app.activity.SettingActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        toolbar:navigationIcon="@drawable/ic_arrow_back"
+        />
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:scaleType="centerCrop"
+        android:layout_marginTop="80dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@mipmap/ic_logo3"
+        />
+    <TextView
+        android:id="@+id/tv_version"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/color_999999"
+        android:text="版本号 v2.1.0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        />
+
+    <me.codeboy.android.aligntextview.AlignTextView
+        android:id="@+id/tv_desc"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/textColor"
+        android:text="闲读 APP是一款基于material design风格的阅读类应用，共有微信精选、综合新闻、精美图片、爆笑世界等四个板块，致力于为用户打造全新的阅读体验。"
+        android:textSize="@dimen/sp_14"
+        android:lineSpacingExtra="4dp"
+        android:layout_margin="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+</LinearLayout>

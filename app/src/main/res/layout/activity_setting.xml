@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:id="@+id/activity_setting"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroundColor"
+    android:orientation="vertical"
+    xmlns:toolbar="http://schemas.android.com/apk/res-auto"
+    tools:context="cn.xiandu.app.activity.SettingActivity"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        toolbar:navigationIcon="@drawable/ic_arrow_back"
+        />
+    <android.support.v7.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:divider="@drawable/setting_divider_line"
+        android:orientation="vertical"
+        app:dividerPadding="10dp"
+        app:showDividers="beginning|middle|end"
+        >
+        <RelativeLayout
+            android:id="@+id/rl_clear_cache"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            >
+
+            <TextView
+                android:id="@+id/tv_cache"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_centerVertical="true"
+                android:padding="10dp"
+                android:drawableLeft="@drawable/ic_remix_downloaded"
+                android:drawablePadding="5dp"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/textColor"
+                android:text="清除缓存"
+                android:textSize="@dimen/sp_14" />
+            <TextView
+                android:id="@+id/tv_cache_size"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:gravity="center_vertical"
+                android:padding="10dp"
+                android:textColor="@color/hd_textcolor"
+                android:text="1.5M"
+                android:textSize="@dimen/sp_14" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            >
+            <TextView
+                android:id="@+id/tv_day"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:padding="10dp"
+                android:drawableLeft="@drawable/ic_eye_grey_24dp"
+                android:drawablePadding="5dp"
+                android:textColor="@color/textColor"
+                android:text="夜间模式"
+                android:textSize="@dimen/sp_14" />
+            <Switch
+                android:id="@+id/switch_day"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical" />
+        </RelativeLayout>
+        <TextView
+            android:id="@+id/tv_collection"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:padding="10dp"
+            android:drawableLeft="@drawable/ic_remix_liked"
+            android:drawablePadding="5dp"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/textColor"
+            android:drawableRight="@drawable/icon_right_arrow"
+            android:text="收藏列表"
+            android:textSize="@dimen/sp_14" />
+        <TextView
+            android:id="@+id/tv_privacy"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:padding="10dp"
+            android:text="隐私条款"
+            android:drawableLeft="@drawable/ic_remix_purchased"
+            android:drawablePadding="5dp"
+            android:layout_marginLeft="10dp"
+            android:drawableRight="@drawable/icon_right_arrow"
+            android:textColor="@color/textColor"
+            android:textSize="@dimen/sp_14" />
+        <TextView
+            android:id="@+id/tv_feedback"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:padding="10dp"
+            android:layout_marginLeft="10dp"
+            android:drawableLeft="@drawable/ic_forum_grey_24dp"
+            android:drawablePadding="5dp"
+            android:text="问题反馈"
+            android:drawableRight="@drawable/icon_right_arrow"
+            android:textColor="@color/textColor"
+            android:textSize="@dimen/sp_14" />
+
+    </android.support.v7.widget.LinearLayoutCompat>
+</LinearLayout>
